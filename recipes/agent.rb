@@ -22,7 +22,7 @@ if platform?([ "ubuntu", "debian" ])
 elsif platform?([ "centos", "fedora" ])
   yum_repository "gridcentric-agent" do
     url node["gridcentric"]["repo"]["agent"]["uri"]
-    key "RPM-GPG-KEY-gridcentric"
+    gpgkey node["gridcentric"]["repo"]["key-uri"]
     action :add
   end
   package "kernel-devel" do

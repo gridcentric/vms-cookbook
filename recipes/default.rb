@@ -43,7 +43,9 @@ end
     else
       parts.push(node["gridcentric"]["os-version"])
     end
-    parts.push(Repositories.translate_distro_to_repo_type(node["platform"]))
+    parts.push(Repositories.translate_distro_to_repo_type(node["platform"],
+                                        node["platform_version"], component,
+                                        node["gridcentric"]["os-version"]))
     node.normal["gridcentric"]["repo"][component]["uri"] = parts.join("/")
   end
 end
@@ -58,11 +60,4 @@ if platform?("ubuntu")
   node.normal["gridcentric"]["repo"]["components"] = ["gridcentric", "multiverse"]
 else
   node.normal["gridcentric"]["repo"]["components"] = ["gridcentric", "non-free"]
-end
-
-if platform_family?("rhel")
-  yum_key "RPM-GPG-KEY-gridcentric" do
-    url node["gridcentric"]["repo"]["key-uri"]
-    action :add
-  end
 end

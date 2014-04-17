@@ -14,7 +14,7 @@ end
 
 yum_repository "gridcentric-vms" do
   url node["gridcentric"]["repo"]["vms"]["uri"]
-  key "RPM-GPG-KEY-gridcentric"
+  gpgkey node["gridcentric"]["repo"]["key-uri"]
 end
 
 package "vms-selinux" do

@@ -27,7 +27,7 @@ elsif platform_family?("rhel")
   [ "vms", "cobalt" ].each do |repo|
     yum_repository "gridcentric-#{repo}" do
       url node["gridcentric"]["repo"][repo]["uri"]
-      key "RPM-GPG-KEY-gridcentric"
+      gpgkey node["gridcentric"]["repo"]["key-uri"]
     end
   end
 else
@@ -49,12 +49,16 @@ execute "ensure start-stop-vmsmd" do
 end
 
 # Explicitly upgrade vms low-level components
+# We ship qemu-precise for precise, and quantal, as long as UCA points
+# to Grizzly or lower. Otherwise distro qemu is fine and we need
+# wrapper instead.
 if platform?("ubuntu")
-  if node["platform_version"] == "13.04"
-    qemu_package = "vms-qemu-raring"
-  else
-    # Assume precise otherwise
+  if (node["platform_version"] == "12.04" ||
+      node["platform_version"] == "12.10") &&
+     ["folsom", "essex", "diablo", "grizzly"].include?(node["gridcentric"]["os-version"])
     qemu_package = "vms-qemu-precise"
+  else
+    qemu_package = "vms-qemu-wrapper"
   end
 elsif platform_family?("rhel")
   # We don't have a host of choices here

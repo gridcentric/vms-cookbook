@@ -19,7 +19,7 @@ if platform?("ubuntu")
 elsif platform_family?("rhel")
   yum_repository "gridcentric-cobalt" do
     url node["gridcentric"]["repo"]["cobalt"]["uri"]
-    key "RPM-GPG-KEY-gridcentric"
+    gpgkey node["gridcentric"]["repo"]["key-uri"]
   end
 else
   raise "Unsupported platform: #{node["platform"]}"

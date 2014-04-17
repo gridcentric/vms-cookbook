@@ -18,7 +18,7 @@ if platform?("ubuntu")
 elsif platform_family?("rhel")
   yum_repository "gridcentric-cobaltclient" do
     url node["gridcentric"]["repo"]["cobaltclient"]["uri"]
-    key "RPM-GPG-KEY-gridcentric"
+    gpgkey node["gridcentric"]["repo"]["key-uri"]
     action :add
   end
 else
