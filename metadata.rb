@@ -1,3 +1,4 @@
+name             "vms"
 maintainer       "Gridcentric Inc."
 maintainer_email "support@gridcentric.com"
 license          "All rights reserved"
